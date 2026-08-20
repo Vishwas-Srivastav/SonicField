@@ -1,10 +1,6 @@
 # SonicField
 
-> Real-time 360° spatial sound localization, acoustic field intelligence, and surface tap detection for Apple Silicon MacBooks.
-
----
-
-> 🚀 **Open Source & Active Development**: SonicField is an open-source spatial audio intelligence framework. Core Audio diagnostic discovery, vDSP signal processing, room calibration, 360° spatial radar visualizer, and the **Acoustic Tap Action Engine** are fully functional. Community contributions, feature ideas, and hardware diagnostic reports across different Mac models are warmly welcomed!
+> Real-time 360-degree spatial sound localization, acoustic field intelligence, and surface tap detection for Apple Silicon MacBooks.
 
 ---
 
@@ -33,15 +29,15 @@ Combining direct **Core Audio hardware discovery**, accelerated **vDSP signal pr
 
 | Milestone / Feature | Status | Description |
 | :--- | :---: | :--- |
-| **Core Audio Hardware Inspector** | ✅ Completed | C-API property querying, stream format inspection, RMS/Peak meters, Pearson channel correlation ($CH_i \leftrightarrow CH_j$). |
-| **DSP Feature Extraction** | ✅ Completed | Accelerated vDSP FFT, ZCR, Spectral Centroid/Rolloff, 8 sub-bands, 12-band MFCCs, GCC-PHAT TDOA. |
-| **Adaptive Noise Floor VAD** | ✅ Completed | Dynamic SNR thresholding isolating speech from ambient noise & keyboard clicks. |
-| **Acoustic Tap Action Engine** | ✅ Completed | Impulsive transient detector & configurable macOS action triggers (Screenshot, Input Mute, App Launch). |
-| **Calibration Wizard & Profiles** | ✅ Completed | Interactive 4-zone & 8-zone room calibration with JSON profile persistence. |
-| **Spatial Radar Visualizer** | ✅ Completed | SwiftUI 360° radar with vector MacBook icon, active sector highlight & animated sound waves. |
-| **Empirical Benchmark Suite** | ✅ Completed | Automated evaluation runner generating confusion matrices & accuracy metrics. |
-| **CoreML Spatial Neural Classifier** | ⏳ In Progress | On-device lightweight neural network for fine-grained 360° azimuth estimation. |
-| **Multi-Speaker Diarization** | 📅 Planned | Tagging transcribed audio streams by spatial origin sector around the laptop. |
+| **Core Audio Hardware Inspector** | Completed | C-API property querying, stream format inspection, RMS/Peak meters, Pearson channel correlation ($CH_i \leftrightarrow CH_j$). |
+| **DSP Feature Extraction** | Completed | Accelerated vDSP FFT, ZCR, Spectral Centroid/Rolloff, 8 sub-bands, 12-band MFCCs, GCC-PHAT TDOA. |
+| **Adaptive Noise Floor VAD** | Completed | Dynamic SNR thresholding isolating speech from ambient noise & keyboard clicks. |
+| **Acoustic Tap Action Engine** | Completed | Impulsive transient detector & configurable macOS action triggers (Screenshot, Input Mute, App Launch). |
+| **Calibration Wizard & Profiles** | Completed | Interactive 4-zone & 8-zone room calibration with JSON profile persistence. |
+| **Spatial Radar Visualizer** | Completed | SwiftUI 360-degree radar with vector MacBook icon, active sector highlight & animated sound waves. |
+| **Empirical Benchmark Suite** | Completed | Automated evaluation runner generating confusion matrices & accuracy metrics. |
+| **CoreML Spatial Neural Classifier** | In Progress | On-device lightweight neural network for fine-grained 360-degree azimuth estimation. |
+| **Multi-Speaker Diarization** | Planned | Tagging transcribed audio streams by spatial origin sector around the laptop. |
 
 ---
 
@@ -55,7 +51,7 @@ Combining direct **Core Audio hardware discovery**, accelerated **vDSP signal pr
 - **Room & Laptop Calibration Wizard**: Guided interactive wizard for calibrating 4-zone and 8-zone spatial profiles adapted to specific rooms, desk surfaces, and laptop placements, with local JSON persistence (`Application Support/SonicField/Profiles/`).
 - **Softmax Classification & UNKNOWN Rejection**: Distance-based cluster centroid matching with Softmax confidence scoring, margin thresholding, and negative sample noise rejection to prevent false zone locks on ambient sounds.
 - **Rolling Probability Temporal Hysteresis**: Exponential Moving Average (EMA) and rolling prediction window to eliminate erratic UI flickering between adjacent spatial sectors.
-- **SwiftUI 360° Spatial Radar Dashboard**: Real-time spatial UI featuring a vector MacBook center icon, active sector highlight, surface quadrant status, animated radial sound waves, and action configurator tab.
+- **SwiftUI 360-Degree Spatial Radar Dashboard**: Real-time spatial UI featuring a vector MacBook center icon, active sector highlight, surface quadrant status, animated radial sound waves, and action configurator tab.
 - **Benchmark & Evaluation Suite**: Empirical benchmark utility generating confusion matrices, per-zone accuracy, precision/recall, and unknown rate statistics.
 
 ---
@@ -164,7 +160,7 @@ appState.$currentPrediction
 
 ## Contributing & Hardware Diagnostics
 
-We encourage community members to run SonicField on various Mac hardware configurations (MacBook Air / Pro, M1 through M4) and share diagnostic reports!
+We encourage community members to run SonicField on various Mac hardware configurations (MacBook Air / Pro, M1 through M4) and share diagnostic reports.
 
 - **Diagnostic Reports**: Run Tab 1 (Diagnostics Mode) and click **"Export Markdown Report"**. Attach the report to a GitHub Issue or Discussion.
 - **Pull Requests**: Please review [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/GUARDRAILS.md](docs/GUARDRAILS.md) before submitting code.
