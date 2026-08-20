@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Spatial awareness field visualizer mapping 8 directional zones around the MacBook.
+/// Spatial awareness field visualizer mapping 8 directional zones and 4 laptop surface quadrants around the MacBook.
 public struct SpatialFieldView: View {
     @ObservedObject var appState: AppState
     @State private var isEightZoneMode: Bool = true
@@ -14,13 +14,13 @@ public struct SpatialFieldView: View {
     }
 
     public var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 16) {
             // Header Controls
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("SonicField Radar")
                         .font(.system(size: 24, weight: .bold))
-                    Text("Real-time 360° speech localization & spatial awareness field.")
+                    Text("Real-time 360° speech localization & laptop surface quadrant field.")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }
@@ -34,7 +34,7 @@ public struct SpatialFieldView: View {
                 .frame(width: 160)
             }
             .padding(.horizontal, 24)
-            .padding(.top, 20)
+            .padding(.top, 16)
 
             Divider()
 
@@ -68,48 +68,59 @@ public struct SpatialFieldView: View {
                 // Center MacBook Icon
                 MacBookView()
             }
-            .frame(width: 380, height: 380)
+            .frame(width: 340, height: 340)
 
-            // Dynamic Prediction Status Card
-            HStack(spacing: 32) {
+            // Dynamic Prediction & Surface Quadrant Status Card
+            HStack(spacing: 24) {
                 VStack(spacing: 4) {
                     Text("DETECTED DIRECTION")
-                        .font(.caption)
+                        .font(.caption2)
                         .fontWeight(.semibold)
                         .foregroundColor(.secondary)
                     Text(appState.currentPrediction.direction.rawValue)
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.bold)
                         .foregroundColor(appState.currentPrediction.direction == .unknown ? .orange : .green)
                 }
 
                 VStack(spacing: 4) {
+                    Text("LAPTOP QUADRANT")
+                        .font(.caption2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.secondary)
+                    Text(appState.currentQuadrant.rawValue)
+                        .font(.title3)
+                        .fontWeight(.bold)
+                        .foregroundColor(.accentColor)
+                }
+
+                VStack(spacing: 4) {
                     Text("CONFIDENCE")
-                        .font(.caption)
+                        .font(.caption2)
                         .fontWeight(.semibold)
                         .foregroundColor(.secondary)
                     Text("\(Int(appState.currentPrediction.confidence * 100))%")
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.bold)
                         .foregroundColor(.blue)
                 }
 
                 VStack(spacing: 4) {
                     Text("SPEECH SIGNAL")
-                        .font(.caption)
+                        .font(.caption2)
                         .fontWeight(.semibold)
                         .foregroundColor(.secondary)
                     Text(appState.isSpeechDetected ? "ACTIVE" : "IDLE")
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.bold)
                         .foregroundColor(appState.isSpeechDetected ? .green : .gray)
                 }
             }
-            .padding()
-            .frame(maxWidth: 600)
+            .padding(12)
+            .frame(maxWidth: 620)
             .background(Color(NSColor.controlBackgroundColor))
             .cornerRadius(12)
-            .padding(.bottom, 20)
+            .padding(.bottom, 16)
         }
     }
 }
@@ -124,7 +135,7 @@ struct ZoneWedgeView: View {
         GeometryReader { geo in
             if let angle = zone.centerAngleDegrees {
                 let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
-                let radius: CGFloat = 150.0
+                let radius: CGFloat = 145.0
                 let radians = (angle - 90.0) * .pi / 180.0
                 let point = CGPoint(
                     x: center.x + cos(radians) * radius,
@@ -134,12 +145,12 @@ struct ZoneWedgeView: View {
                 ZStack {
                     Circle()
                         .fill(isSelected ? Color.green.opacity(0.35) : Color.blue.opacity(0.08))
-                        .frame(width: isSelected ? 52 : 44, height: isSelected ? 52 : 44)
+                        .frame(width: isSelected ? 50 : 42, height: isSelected ? 50 : 42)
                         .scaleEffect(isSelected ? 1.15 : 1.0)
                         .animation(.spring(response: 0.3), value: isSelected)
 
                     Text(zone.rawValue)
-                        .font(.system(size: 10, weight: isSelected ? .bold : .medium))
+                        .font(.system(size: 9, weight: isSelected ? .bold : .medium))
                         .foregroundColor(isSelected ? .green : .primary)
                 }
                 .position(point)

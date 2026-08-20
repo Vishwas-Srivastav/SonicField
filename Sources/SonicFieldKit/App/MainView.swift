@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Main UI container with tab bar navigation across Diagnostic, Spatial Radar, Calibration, and Benchmark modes.
+/// Main UI container with tab bar navigation across Diagnostic, Spatial Radar, Calibration, Actions, and Benchmark modes.
 public struct MainView: View {
     @StateObject private var appState = AppState()
 
@@ -26,12 +26,19 @@ public struct MainView: View {
                 }
                 .tag(2)
 
+            ActionConfigView()
+                .environmentObject(appState)
+                .tabItem {
+                    Label("Actions", systemImage: "bolt.horizontal.fill")
+                }
+                .tag(3)
+
             EvaluationView(appState: appState)
                 .tabItem {
                     Label("Evaluation", systemImage: "chart.bar.xaxis")
                 }
-                .tag(3)
+                .tag(4)
         }
-        .frame(minWidth: 900, minHeight: 650)
+        .frame(minWidth: 920, minHeight: 670)
     }
 }
