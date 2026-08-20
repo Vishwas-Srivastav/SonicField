@@ -4,9 +4,13 @@
 
 ---
 
+> 🚀 **Open Source & Active Development**: SonicField is actively being developed as an open-source spatial audio intelligence framework. Core Audio diagnostic discovery, vDSP signal processing, room calibration, and the 360° spatial radar visualizer are fully functional. Community contributions, feature ideas, and hardware diagnostic reports across different Mac models are warmly welcomed!
+
+---
+
 ## Overview
 
-**SonicField** is a native macOS application that uses Apple Silicon MacBook built-in microphone systems to detect the spatial direction of human speech around the laptop across **8 directional sectors**:
+**SonicField** is a native macOS application and developer framework (`SonicFieldKit`) that leverages Apple Silicon MacBook built-in microphone arrays to detect the spatial direction of human speech in real time across **8 directional sectors**:
 
 ```
                      FRONT
@@ -22,16 +26,31 @@
                       REAR
 ```
 
-Inspired by research into multi-microphone array localization, SonicField combines direct **Core Audio hardware capability discovery**, accelerated **vDSP signal processing**, dynamic **Voice Activity Detection (VAD)**, and distance-based **feature vector classification** with Softmax confidence scoring and out-of-distribution **UNKNOWN rejection**.
+Combining direct **Core Audio hardware discovery**, accelerated **vDSP signal processing**, dynamic **Voice Activity Detection (VAD)**, and distance-based **feature vector classification** with Softmax confidence scoring and out-of-distribution **UNKNOWN rejection**, SonicField provides real-time acoustic spatial awareness.
+
+---
+
+## Project Status & Roadmap
+
+| Milestone / Feature | Status | Description |
+| :--- | :---: | :--- |
+| **Core Audio Hardware Inspector** | ✅ Completed | C-API property querying, stream format inspection, RMS/Peak meters, Pearson channel correlation ($CH_i \leftrightarrow CH_j$). |
+| **DSP Feature Extraction** | ✅ Completed | Accelerated vDSP FFT, ZCR, Spectral Centroid/Rolloff, 8 sub-bands, 12-band MFCCs, GCC-PHAT TDOA. |
+| **Adaptive Noise Floor VAD** | ✅ Completed | Dynamic SNR thresholding isolating speech from ambient noise & keyboard clicks. |
+| **Calibration Wizard & Profiles** | ✅ Completed | Interactive 4-zone & 8-zone room calibration with JSON profile persistence. |
+| **Spatial Radar Visualizer** | ✅ Completed | SwiftUI 360° radar with vector MacBook icon, active sector highlight & animated sound waves. |
+| **Empirical Benchmark Suite** | ✅ Completed | Automated evaluation runner generating confusion matrices & accuracy metrics. |
+| **CoreML Spatial Neural Classifier** | ⏳ In Progress | On-device lightweight neural network for fine-grained 360° azimuth estimation. |
+| **Multi-Speaker Diarization** | 📅 Planned | Tagging transcribed audio streams by spatial origin sector around the laptop. |
 
 ---
 
 ## Key Features
 
-- **Core Audio Hardware Inspector**: Queries stream format, sample rates, channel counts, and computes pairwise Pearson cross-correlation matrices ($CH_i \leftrightarrow CH_j$) to discover whether host channels are independent or pre-processed beamformed array streams.
-- **vDSP Signal Processing Engine**: Hann-windowed real-to-complex FFT, 24+ time/frequency/spatial features (RMS, Peak, Zero-Crossing Rate, Spectral Centroid, Spectral Rolloff, 8 Sub-band energies, 12 Log-Mel filterbank MFCCs, GCC-PHAT TDOA).
+- **Core Audio Hardware Inspector**: Direct C-API property querying (`AudioObjectGetPropertyData`), stream format inspection, real-time per-channel RMS/Peak meters, and pairwise Pearson cross-correlation matrices ($CH_i \leftrightarrow CH_j$).
+- **vDSP Signal Processing Engine**: Accelerated Hann-windowed FFT, 24+ time/frequency/spatial features (RMS, Peak, Zero-Crossing Rate, Spectral Centroid, Spectral Rolloff, 8 Sub-band energies, 12 Log-Mel filterbank MFCCs, GCC-PHAT TDOA).
 - **Adaptive Voice Activity Detector (VAD)**: Real-time dynamic noise-floor tracking and SNR energy thresholding to isolate human speech from ambient room noise, silence, and keyboard clicks.
-- **Room & Laptop Calibration Wizard**: Step-by-step interactive wizard for calibrating 4-zone and 8-zone spatial profiles adapted to specific rooms, desk surfaces, and laptop positions, with local JSON persistence (`Application Support/SonicField/Profiles/`).
+- **Room & Laptop Calibration Wizard**: Guided interactive wizard for calibrating 4-zone and 8-zone spatial profiles adapted to specific rooms, desk surfaces, and laptop placements, with local JSON persistence (`Application Support/SonicField/Profiles/`).
 - **Softmax Classification & UNKNOWN Rejection**: Distance-based cluster centroid matching with Softmax confidence scoring, margin thresholding, and negative sample noise rejection to prevent false zone locks on ambient sounds.
 - **Rolling Probability Temporal Hysteresis**: Exponential Moving Average (EMA) and rolling prediction window to eliminate erratic UI flickering between adjacent spatial sectors.
 - **SwiftUI 360° Spatial Radar Dashboard**: Real-time spatial UI featuring a vector MacBook center icon, active sector highlight, animated radial sound waves, speech signal status, and JSON/Markdown diagnostic report exporter.
@@ -84,38 +103,7 @@ Inspired by research into multi-microphone array localization, SonicField combin
                     ┌────────────────────────────┐
                     │ SwiftUI Spatial Field UI   │
                     │    (360° Radar & Waves)    │
-                    └────────────────────────────┘
-```
-
----
-
-## Directory Structure
-
-```
-SonicField/
-├── Package.swift                  # Swift Package Manager manifest
-├── ProjectDetails.md              # Complete technical architecture specification
-├── README.md                      # Product documentation & usage guide
-├── Sources/
-│   ├── SonicFieldApp/
-│   │   └── main.swift             # Main SwiftUI application entry point
-│   └── SonicFieldKit/
-│       ├── App/                   # AppState coordinator & MainView container
-│       ├── Audio/                 # Core Audio hardware inspector & AVAudioEngine capture
-│       ├── Calibration/           # Calibration wizard & JSON profile manager
-│       ├── DSP/                   # vDSP FFT, Feature Extractor & GCC-PHAT TDOA
-│       ├── Detection/             # Dynamic noise-floor Voice Activity Detector (VAD)
-│       ├── Diagnostics/           # Core Audio diagnostic view & report generator
-│       ├── Evaluation/            # Empirical benchmark runner & confusion matrix
-│       ├── Localization/          # Spatial directions, distance classifier & smoother
-│       └── Visualization/         # Spatial radar UI, MacBook icon & sound wave canvas
-├── Tests/
-│   └── SonicFieldTests/           # Unit test suite (DSP, VAD, Classifier, Calibration)
-├── docs/                          # Architecture guardrails & standards
-└── scripts/
-    ├── build.sh                   # Native swiftc build script for executable & tests
-    ├── check-guardrails.sh        # Automated engineering guardrail suite
-    └── setup-guardrails.sh        # Local git hooks setup script
+                    └──────────────┬─────────────┘
 ```
 
 ---
@@ -128,13 +116,7 @@ SonicField/
 - **Apple Silicon Mac** (M1/M2/M3/M4)
 - Swift 5.9+ / Swift 6 toolchain (`swiftc`)
 
-### 1. Initialize Local Engineering Guardrails
-
-```bash
-./scripts/setup-guardrails.sh
-```
-
-### 2. Build the Application and Test Runner
+### 1. Build Application & Test Runner
 
 ```bash
 ./scripts/build.sh
@@ -144,19 +126,13 @@ This compiles two native executables into `bin/`:
 - `bin/SonicField`: The native macOS SwiftUI application.
 - `bin/SonicFieldTests`: The automated unit test suite runner.
 
-### 3. Run Automated Unit Tests
+### 2. Run Automated Unit Tests
 
 ```bash
 ./bin/SonicFieldTests
 ```
 
-### 4. Run Engineering Guardrail Validation
-
-```bash
-./scripts/check-guardrails.sh
-```
-
-### 5. Launch the SonicField Application
+### 3. Launch SonicField App
 
 ```bash
 ./bin/SonicField
@@ -164,7 +140,7 @@ This compiles two native executables into `bin/`:
 
 ---
 
-## Framework Integration API (`SonicFieldKit`)
+## Using `SonicFieldKit` in Swift Applications
 
 You can import `SonicFieldKit` into any macOS application to add real-time spatial voice direction awareness:
 
@@ -189,15 +165,12 @@ appState.$currentPrediction
 
 ---
 
-## Engineering Guardrail Standards
+## Contributing & Hardware Diagnostics
 
-This project enforces strict engineering guardrails:
+We encourage community members to run SonicField on various Mac hardware configurations (MacBook Air / Pro, M1 through M4) and share diagnostic reports!
 
-- **Baseline Branch**: All changes are cut from and merged into `development`.
-- **Branch Naming**: `<PROJECT_INITIALS>-<NUMBER>` (e.g. `SF-01`, `SF-02`).
-- **Commit Format**: [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `docs:`, `chore:`).
-- **Secret Hygiene**: Zero secret credentials or environment files tracked in git.
-- **UI Iconography**: SVG and native vector rendering only (no emojis as UI icons).
+- **Diagnostic Reports**: Run Tab 1 (Diagnostics Mode) and click **"Export Markdown Report"**. Attach the report to a GitHub Issue or Discussion.
+- **Pull Requests**: Please review [CONTRIBUTING.md](CONTRIBUTING.md) and [docs/GUARDRAILS.md](docs/GUARDRAILS.md) before submitting code.
 
 ---
 
