@@ -40,6 +40,15 @@ struct TestRunnerMain {
         runTest("testClassifierPredictionAndRejection") { classifierTests.testClassifierPredictionAndRejection() }
         runTest("testTemporalSmoother") { classifierTests.testTemporalSmoother() }
 
+        // 4. Tap Detector & Action Manager Tests
+        let tapTests = TapDetectorTests()
+        runTest("testTapDetectorImpulsivePeak") { tapTests.testTapDetectorImpulsivePeak() }
+        runTest("testTapDetectorVoiceRejection") { tapTests.testTapDetectorVoiceRejection() }
+
+        let actionTests = ActionManagerTests()
+        runTest("testActionManagerConfigurationAndDispatch") { actionTests.testActionManagerConfigurationAndDispatch() }
+        runTest("testActionManagerDisabledQuadrant") { actionTests.testActionManagerDisabledQuadrant() }
+
         print("\n==================================================")
         if failedCount == 0 {
             print(" ✓ ALL \(passedCount) UNIT TESTS PASSED!")
