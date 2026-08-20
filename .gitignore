@@ -68,3 +68,5 @@ Thumbs.db
 *.tmp
 *.temp
 .tmp/
+scratch/
+.build/
