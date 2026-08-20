@@ -29,6 +29,7 @@ swiftc -sdk "$SDK_PATH" \
   Sources/SonicFieldKit/Detection/*.swift \
   Sources/SonicFieldKit/Localization/*.swift \
   Sources/SonicFieldKit/Calibration/*.swift \
+  Sources/SonicFieldKit/Actions/*.swift \
   Sources/SonicFieldKit/Evaluation/*.swift \
   Sources/SonicFieldKit/App/*.swift \
   Sources/SonicFieldKit/Visualization/*.swift \
@@ -51,11 +52,14 @@ swiftc -sdk "$SDK_PATH" \
   Sources/SonicFieldKit/DSP/FeatureExtractor.swift \
   Sources/SonicFieldKit/DSP/GCCPHAT.swift \
   Sources/SonicFieldKit/Detection/VoiceActivityDetector.swift \
+  Sources/SonicFieldKit/Detection/TapDetector.swift \
   Sources/SonicFieldKit/Localization/Direction.swift \
   Sources/SonicFieldKit/Localization/DirectionClassifier.swift \
   Sources/SonicFieldKit/Localization/TemporalSmoother.swift \
   Sources/SonicFieldKit/Calibration/CalibrationProfile.swift \
   Sources/SonicFieldKit/Calibration/CalibrationManager.swift \
+  Sources/SonicFieldKit/Actions/TriggerAction.swift \
+  Sources/SonicFieldKit/Actions/ActionManager.swift \
   Sources/SonicFieldKit/Evaluation/EvaluationRunner.swift \
   Tests/SonicFieldTests/*.swift \
   -o bin/SonicFieldTests
